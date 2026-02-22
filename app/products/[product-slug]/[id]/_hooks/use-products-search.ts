@@ -5,12 +5,8 @@ export function useProductsSearch() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // searchTerm lives in the URL — useProductsFromUrl picks it up automatically
   const searchTerm = searchParams.get("q") ?? "";
-
-  // inputValue is local — we don't push every keystroke to the URL
   const [inputValue, setInputValue] = useState(searchTerm);
-
   const isSearching = !!searchTerm;
 
   const handleSearch = () => {
@@ -23,13 +19,18 @@ export function useProductsSearch() {
     router.push(`?${params.toString()}`, { scroll: false });
   };
 
-  const handleClearSearch = () => {
+  // Used by the search bar X button — clears q from URL, keeps filters
+  const handleClearSearchWithNav = () => {
     setInputValue("");
-
     const params = new URLSearchParams(searchParams);
     params.delete("q");
     params.delete("page");
     router.push(`?${params.toString()}`, { scroll: false });
+  };
+
+  // Used when caller owns navigation (e.g. ProductsEmptyState)
+  const handleClearSearch = () => {
+    setInputValue("");
   };
 
   return {
@@ -39,5 +40,6 @@ export function useProductsSearch() {
     isSearching,
     handleSearch,
     handleClearSearch,
+    handleClearSearchWithNav,
   };
 }

@@ -22,7 +22,6 @@ export function ActiveFilters() {
   const handleApplyFilters = () => {
     const params = new URLSearchParams(searchParams.toString());
 
-    // Clear existing filter params
     params.delete("size");
     params.delete("availability");
     params.delete("category");
@@ -38,43 +37,26 @@ export function ActiveFilters() {
       } else if (filter.type === "availability") {
         params.set("availability", filter.value);
       } else if (filter.type === "category") {
-        // Category uses NAME in URL
         params.append("category", filter.value);
       } else if (filter.type === "subcategory") {
-        // Subcategory uses ID in URL
         params.append("subcategory", filter.value);
       } else if (filter.type === "color") {
         params.append("color", filter.value);
       } else if (filter.type === "price") {
-        // Parse "min-max" into separate URL params
         const [minStr, maxStr] = filter.value.split("-");
-        if (minStr) {
-          params.set("minPrice", minStr);
-        }
-        if (maxStr) {
-          params.set("maxPrice", maxStr);
-        }
+        if (minStr) params.set("minPrice", minStr);
+        if (maxStr) params.set("maxPrice", maxStr);
       }
     });
 
-    const href = `${pathname}?${params.toString()}`;
-
-    window.history.pushState(null, "", href);
-    router.refresh();
+    // ✅ Use router.push so Next.js owns the URL state
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
   const handleClearAll = () => {
-    // 1. Clear Zustand filters so the UI chips disappear immediately
     clearAllFilters();
-
-    // 2. Build a clean URL with no filters (and no query at all)
-    const href = pathname; // e.g. /products
-
-    // 3. Instantly update the address bar
-    window.history.pushState(null, "", href);
-
-    // 4. Ask Next to re-render with the new (empty) searchParams
-    router.refresh();
+    // ✅ Already correct - but only works if handleApplyFilters is also fixed
+    router.push(pathname, { scroll: false });
   };
 
   if (!hasActiveFilters) return null;

@@ -91,7 +91,7 @@ function ProductsPageContent() {
         <ProductsGrid products={data.data} />
       )}
 
-      {data?.meta && (
+      {data?.meta && data?.meta?.total_pages > 1 && (
         <div className="flex justify-end">
           <PaginationControls<ProductResponse>
             data={data}

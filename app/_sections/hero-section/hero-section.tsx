@@ -22,7 +22,7 @@ export default function HeroSection() {
           KIDS
         </Link>
       </ul>
-      <div className="h-20"></div>
+      <div className="h-5 md:h-20"></div>
       {/* <HeroSearch /> */}
       <HeroMain />
     </div>

@@ -2,29 +2,27 @@
 import { create } from "zustand";
 
 interface AvailabilityFilterState {
-  // Data
   inStock: boolean;
   outOfStock: boolean;
 
   isExpanded: boolean;
 
-  // Actions
   setInStock: (checked: boolean) => void;
   setOutOfStock: (checked: boolean) => void;
   clearAvailability: () => void;
   setExpanded: (expanded: boolean) => void;
   toggleExpanded: () => void;
-  initializeFromUrl: (availability: "inStock" | "outOfStock") => void;
+
+  // 👇 updated signature
+  initializeFromUrl: (availability: "inStock" | "outOfStock" | null) => void;
 }
 
 export const useAvailabilityFilterStore = create<AvailabilityFilterState>(
   (set) => ({
-    // Initial state
     inStock: false,
     outOfStock: false,
     isExpanded: true,
 
-    // Actions
     setInStock: (checked) =>
       set((state) => ({
         inStock: checked,
@@ -47,10 +45,11 @@ export const useAvailabilityFilterStore = create<AvailabilityFilterState>(
 
     toggleExpanded: () => set((state) => ({ isExpanded: !state.isExpanded })),
 
-    initializeFromUrl: (availability: "inStock" | "outOfStock") =>
+    // 👇 this now clears automatically when null
+    initializeFromUrl: (availability: "inStock" | "outOfStock" | null) =>
       set({
         inStock: availability === "inStock",
         outOfStock: availability === "outOfStock",
       }),
-  })
+  }),
 );

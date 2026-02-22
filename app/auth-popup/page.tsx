@@ -44,7 +44,7 @@ export default function AuthPopupPage() {
             type: "AUTH_SUCCESS",
             user: user,
           },
-          window.location.origin
+          window.location.origin,
         );
 
         console.log("✅ Message sent to parent");
@@ -70,24 +70,22 @@ export default function AuthPopupPage() {
             type: "AUTH_ERROR",
             error: "parse_failed",
           },
-          window.location.origin
+          window.location.origin,
         );
 
         setTimeout(() => window.close(), 500);
       }
     } else {
-      console.error("❌ No user_data cookie found");
-      console.log("Available cookies:", document.cookie);
+      // Cookie not readable (cross-port locally or cross-origin in production)
+      // Parent will refetch /user/me via invalidateQueries on AUTH_SUCCESS anyway
+      console.log("⚠️ No user_data cookie found - using fallback AUTH_SUCCESS");
 
       window.opener.postMessage(
-        {
-          type: "AUTH_ERROR",
-          error: "no_user_data",
-        },
-        window.location.origin
+        { type: "AUTH_SUCCESS", user: null },
+        window.location.origin,
       );
 
-      setTimeout(() => window.close(), 500);
+      setTimeout(() => window.close(), 300);
     }
   }, []);
 
