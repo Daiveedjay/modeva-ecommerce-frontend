@@ -12,6 +12,7 @@ import { useFavouritesStore } from "@/app/cart/_hooks/use-favourites-store";
 export default function UserOverviewTab() {
   const { data, isLoading, isError, refetch } = useGetUserOverview();
   const overview_data = data?.data;
+  const itemsLength = useFavouritesStore((s) => s.items.length);
 
   if (isLoading) {
     return <LoadingState />;
@@ -25,8 +26,6 @@ export default function UserOverviewTab() {
       />
     );
   }
-
-  const itemsLength = useFavouritesStore((s) => s.items.length);
 
   return (
     <div className="space-y-8 md:space-y-12 lg:space-y-16 mb-8 md:mb-12 lg:mb-16">
