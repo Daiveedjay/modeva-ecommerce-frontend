@@ -99,7 +99,7 @@ export function CheckoutConfirmationModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-125 rounded-none border-[#1a1a1a] p-0 overflow-hidden">
         {/* Header with Trust Signal */}
-        <div className="bg-[#1a1a1a] text-white p-8 pb-10">
+        <div className="bg-[#1a1a1a] text-white px-4 md:p-8 py-8 pb-10">
           <div className="flex items-center justify-center mb-4">
             <div className="w-12 h-12 rounded-none bg-white/10 flex items-center justify-center">
               <ShieldCheck className="w-6 h-6" />
@@ -116,7 +116,7 @@ export function CheckoutConfirmationModal({
         </div>
 
         {/* Content */}
-        <div className="p-8 space-y-8">
+        <div className="px-4 py-8 md:p-8 space-y-8">
           {/* Order Summary Preview */}
           <div className="space-y-4">
             <h3 className="text-[10px] uppercase tracking-[0.25em] font-bold text-[#999999]">

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-export function ActiveFilters() {
+export function ActiveFilters({ onApply }: { onApply?: () => void }) {
   const {
     activeFilters,
     hasActiveFilters,
@@ -51,6 +51,8 @@ export function ActiveFilters() {
 
     // ✅ Use router.push so Next.js owns the URL state
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
+
+    if (onApply) onApply();
   };
 
   const handleClearAll = () => {

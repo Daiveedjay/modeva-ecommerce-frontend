@@ -4,8 +4,9 @@ import { useGetUserAddresses } from "@/app/_queries/profile/address/get-user-add
 import { useAddressModalStore } from "@/app/profile/tabs/store/use-address-store";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Check } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Check, MapPin } from "lucide-react";
+import { AddAddressModal } from "@/app/profile/modals/address/add-address-modal";
+import { EmptyState } from "@/app/profile/resueables/empty-state";
 
 interface DeliveryAddressSectionProps {
   selectedId: string | null;
@@ -17,20 +18,13 @@ export function DeliveryAddressSection({
   onSelect,
 }: DeliveryAddressSectionProps) {
   const { data, isLoading: isLoadingAddresses } = useGetUserAddresses();
-
   const address_data = data?.data;
-
-  const router = useRouter();
 
   const { openAddAddressModal } = useAddressModalStore((state) => state);
 
-  const handleAddNewAddress = () => {
-    router.push("/profile?tab=addresses", { scroll: false });
-    openAddAddressModal(true);
-  };
-
   return (
     <section className="space-y-8">
+      {/* Section header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-6">
           <span className="flex items-center justify-center w-10 h-10 rounded-none border border-[#1a1a1a] text-sm font-bold bg-[#1a1a1a] text-white">
@@ -40,22 +34,38 @@ export function DeliveryAddressSection({
             Delivery Address
           </h2>
         </div>
-        <Button
-          variant="link"
-          onClick={handleAddNewAddress}
-          className="text-[10px] text-foreground uppercase tracking-widest font-bold underline p-0">
-          Add New
-        </Button>
+
+        {address_data && address_data.length > 0 && (
+          <Button
+            variant="link"
+            onClick={() => openAddAddressModal(true)}
+            className="text-[10px] text-foreground uppercase tracking-widest font-bold underline p-0">
+            Add New
+          </Button>
+        )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pl-0 md:pl-16">
-        {isLoadingAddresses
-          ? Array(2)
+      {/* Addresses or empty/loading state */}
+      <div className="pl-0 md:pl-16">
+        {isLoadingAddresses ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {Array(2)
               .fill(0)
               .map((_, i) => (
                 <Skeleton key={i} className="h-40 w-full rounded-none" />
-              ))
-          : address_data?.map((address) => (
+              ))}
+          </div>
+        ) : !address_data || address_data.length === 0 ? (
+          <EmptyState
+            icon={<MapPin className="text-muted-foreground" />}
+            title="No addresses saved yet"
+            description="Add your first delivery address to make checkout faster and easier next time you shop."
+            actionLabel="Add Address"
+            onAction={() => openAddAddressModal(true)}
+          />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {address_data.map((address) => (
               <div
                 key={address.id}
                 onClick={() => onSelect(address.id)}
@@ -87,7 +97,12 @@ export function DeliveryAddressSection({
                 )}
               </div>
             ))}
+          </div>
+        )}
       </div>
+
+      {/* Mounted Add Address Modal */}
+      <AddAddressModal />
     </section>
   );
 }

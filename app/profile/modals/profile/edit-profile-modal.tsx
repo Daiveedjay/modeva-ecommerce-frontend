@@ -10,6 +10,8 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useUpdateUserDetails } from "@/app/_queries/profile/user/update-user-details";
 import { toastSuccess } from "@/lib/utils";
 import { Spinner } from "@/components/reuseables/spinner";
@@ -36,6 +38,7 @@ export function EditProfileModal({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     updateUserDetails(
       { name, phone },
       {
@@ -49,66 +52,70 @@ export function EditProfileModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-2xl p-8 md:p-10 bg-background rounded-none border-none shadow-2xl">
+      <DialogContent className="max-w-2xl bg-background rounded-none border-none shadow-2xl px-6 sm:px-10 py-8 overflow-y-auto">
         <DialogHeader className="text-left space-y-2">
-          <DialogTitle className="text-4xl font-beatrice-deck font-normal tracking-tight">
+          <DialogTitle className="text-3xl sm:text-4xl font-beatrice-deck font-normal tracking-tight">
             Edit profile
           </DialogTitle>
-          <p className="text-muted-foreground text-lg font-light leading-relaxed">
+          <p className="text-muted-foreground text-sm sm:text-lg font-light leading-relaxed">
             Update your details below. Changes will apply to your account.
           </p>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6 py-6">
+          {/* Full Name */}
           <div className="space-y-3">
-            <label className="block text-xs uppercase tracking-widest text-stone-500">
+            <Label className="text-xs uppercase tracking-widest text-stone-500">
               Full name
-            </label>
-            <input
-              type="text"
+            </Label>
+            <Input
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-3 border border-stone-200 bg-white focus:outline-none focus:border-stone-400"
+              className="h-12 px-4 border border-stone-200 bg-white focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-stone-400 rounded-none"
             />
           </div>
 
+          {/* Email */}
           <div className="space-y-3">
-            <label className="block text-xs uppercase tracking-widest text-stone-500">
+            <Label className="text-xs uppercase tracking-widest text-stone-500">
               Email
-            </label>
-            <input
+            </Label>
+            <Input
               type="email"
               value={profile.email ?? ""}
               disabled
               readOnly
-              className="w-full text-muted-foreground hover:cursor-not-allowed px-4 py-3 border border-stone-200 bg-white"
+              className="h-12 px-4 border border-stone-200 bg-white text-muted-foreground cursor-not-allowed rounded-none"
             />
           </div>
 
+          {/* Phone */}
           <div className="space-y-3">
-            <label className="block text-xs uppercase tracking-widest text-stone-500">
+            <Label className="text-xs uppercase tracking-widest text-stone-500">
               Phone
-            </label>
-            <input
+            </Label>
+            <Input
               type="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="Optional"
-              className="w-full px-4 py-3 border border-stone-200 bg-white focus:outline-none focus:border-stone-400"
+              className="h-12 px-4 border border-stone-200 bg-white focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-stone-400 rounded-none"
             />
           </div>
 
-          <DialogFooter className="flex gap-4 pt-6">
+          <DialogFooter className="flex flex-col sm:flex-row gap-4 pt-6">
             <Button
               type="button"
               onClick={onClose}
               variant="ghost"
-              className="w-full sm:flex-1 h-12 sm:h-13 md:h-14 text-xs sm:text-sm font-semibold tracking-wide hover:bg-muted/50 transition-all order-2 sm:order-1">
+              className="w-full sm:flex-1 h-12 sm:h-13 md:h-14 text-xs sm:text-sm font-semibold tracking-wide hover:bg-muted/50 transition-all order-2 sm:order-1 rounded-none">
               Go back
             </Button>
+
             <Button
               type="submit"
-              className="w-full sm:flex-1 md:flex-2 h-12 sm:h-13 md:h-14 bg-foreground text-primary-foreground hover:bg-foreground/90 shadow-xl disabled:bg-primary shadow-primary/20 transition-all text-xs sm:text-sm font-semibold tracking-wide order-1 sm:order-2">
+              disabled={isPending}
+              className="w-full sm:flex-1 md:flex-2 h-12 sm:h-13 md:h-14 bg-foreground text-primary-foreground hover:bg-foreground/90 shadow-xl disabled:bg-primary shadow-primary/20 transition-all text-xs sm:text-sm font-semibold tracking-wide order-1 sm:order-2 rounded-none">
               {isPending && <Spinner />}
               {isPending ? "Saving..." : "Save changes"}
             </Button>

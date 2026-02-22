@@ -19,16 +19,29 @@ import { RecipientDetailsSection } from "@/app/profile/_components/recepient-det
 import { Spinner } from "@/components/reuseables/spinner";
 import { useUserAddressStore } from "@/app/profile/_hooks/use-user-address-store";
 import { useAddressModalStore } from "@/app/profile/tabs/store/use-address-store";
+import { useGetUserAddresses } from "@/app/_queries/profile/address/get-user-addresses";
 
 export function AddAddressModal() {
   const { addAddressModal, closeAddAddressModal } = useAddressModalStore(
     (state) => state,
   );
 
+  const { data, isLoading: isLoadingAddresses } = useGetUserAddresses();
+  const address_data = data?.data;
+
   const { mutate: createAddress, isPending } = useCreateUserAddress();
 
   const { formData, setIsDefault, resetForm, isFormValid, getPayload } =
     useUserAddressStore((store) => store);
+
+  // Determine if user has no addresses
+  const isFirstAddress =
+    !isLoadingAddresses && (!address_data || address_data.length === 0);
+
+  // Ensure default is always checked for first address
+  if (isFirstAddress && !formData.is_default) {
+    setIsDefault(true);
+  }
 
   const handleClose = () => {
     resetForm();
@@ -39,7 +52,6 @@ export function AddAddressModal() {
     if (!isFormValid()) return;
 
     createAddress(getPayload() as Parameters<typeof createAddress>[0]);
-
     handleClose();
   };
 
@@ -70,18 +82,27 @@ export function AddAddressModal() {
 
             {/* Default Option */}
             <div
-              className="flex items-start sm:items-center gap-3 md:gap-4 p-4 md:p-6 border-2 group cursor-pointer bg-input/10 transition-colors"
-              onClick={() => setIsDefault(!formData.is_default)}>
+              className={`flex items-start sm:items-center gap-3 md:gap-4 p-4 md:p-6 border-2 group cursor-pointer transition-colors ${
+                isFirstAddress
+                  ? "bg-input/10 cursor-not-allowed"
+                  : "bg-input/10"
+              }`}
+              onClick={() =>
+                !isFirstAddress && setIsDefault(!formData.is_default)
+              }>
               <Checkbox
                 id="is_default"
                 checked={formData.is_default}
                 onCheckedChange={setIsDefault}
+                disabled={isFirstAddress} // disable if first address
                 className="w-4 h-4 md:w-5 md:h-5 data-[state=checked]:bg-foreground data-[state=checked]:border-primary mt-0.5 sm:mt-0 shrink-0"
               />
               <div className="flex-1 min-w-0">
                 <Label
                   htmlFor="is_default"
-                  className="text-xs sm:text-sm font-semibold cursor-pointer block">
+                  className={`text-xs sm:text-sm font-semibold block ${
+                    isFirstAddress ? "cursor-not-allowed" : "cursor-pointer"
+                  }`}>
                   Set as default delivery address
                 </Label>
                 <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 font-light">

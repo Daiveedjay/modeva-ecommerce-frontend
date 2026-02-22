@@ -19,7 +19,7 @@ export default function OurApproachGrid() {
   return (
     <div>
       {" "}
-      <div className="px-6 md:px-14 mb-8 md:mb-12">
+      <div className="page_spacing mb-8 md:mb-12">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -37,7 +37,7 @@ export default function OurApproachGrid() {
           meticulously crafted ensuring the highest quality exquisite finish.
         </motion.p>
       </div>
-      <div className="px-6 md:px-14">
+      <div className="page_spacing">
         {/* Bento-style luxury grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
           {images.map((item, index) => (

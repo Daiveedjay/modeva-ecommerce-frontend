@@ -60,7 +60,7 @@ export default function MultiSelectFooter({
       ">
       <div className="flex flex-wrap items-center justify-between gap-3">
         {/* Left: subtotal */}
-        <div className="min-w-[160px]">
+        <div className="min-w-40">
           <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.3em] text-muted-foreground/60 font-black">
             Subtotal
           </div>

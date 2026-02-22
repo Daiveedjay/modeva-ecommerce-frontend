@@ -78,7 +78,7 @@ export function toastError(title: string, description?: string) {
 
 export function toastSuccess(title: string, description?: string) {
   return toast.success(title, {
-    position: "top-right",
+    position: "bottom-right",
     closeButton: true,
     description,
     style: {

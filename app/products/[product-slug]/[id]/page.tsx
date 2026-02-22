@@ -61,7 +61,7 @@ export default function SingleProductPage() {
         <div className="space-y-6 relative border border-border p-6 sm:p-8 lg:p-10 flex-1 lg:flex-1">
           {/* Header */}
           <div>
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-medium mb-2">
+            <h1 className="text-2xl max-w-3/4 wrap-break-word md:w-full sm:text-3xl lg:text-4xl font-medium mb-2">
               {product.name}
             </h1>
             <p className="text-xl sm:text-2xl font-medium">

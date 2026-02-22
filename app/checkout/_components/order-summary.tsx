@@ -26,7 +26,7 @@ export function OrderSummary() {
   // console.log(cart_items)
 
   return (
-    <div className="lg:col-span-4 bg-[#fafafa] p-6 md:p-12 lg:p-20 relative">
+    <div className="lg:col-span-4 bg-[#fafafa] px-4 py-6 md:p-14 lg:p-20 relative">
       <div className="sticky top-20">
         <h2 className="text-[11px] font-bold uppercase tracking-[0.2em] mb-12 border-b border-[#eeeeee] pb-4">
           Your Selection

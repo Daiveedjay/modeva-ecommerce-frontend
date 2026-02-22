@@ -56,18 +56,23 @@ export default function UserOverviewTab() {
       </div>
 
       {/* Recent Activity */}
-      <div className="space-y-4 md:space-y-6">
-        <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6 lg:mb-8">
-          <span className="tab_header">Recent Activity</span>
-          <div className="h-[0.5px] flex-1 bg-neutral-100" />
-        </div>
+      {overview_data?.recent_orders &&
+        overview_data.recent_orders.length > 0 && (
+          <>
+            <div className="space-y-4 md:space-y-6">
+              <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6 lg:mb-8">
+                <span className="tab_header">Recent Activity</span>
+                <div className="h-[0.5px] flex-1 bg-neutral-100" />
+              </div>
 
-        <div className="space-y-3 md:space-y-4 lg:space-y-6">
-          {overview_data?.recent_orders?.map((order) => (
-            <OrderActivityRow key={order.id} order={order} />
-          ))}
-        </div>
-      </div>
+              <div className="space-y-3 md:space-y-4 lg:space-y-6">
+                {overview_data?.recent_orders?.map((order) => (
+                  <OrderActivityRow key={order.id} order={order} />
+                ))}
+              </div>
+            </div>
+          </>
+        )}
     </div>
   );
 }

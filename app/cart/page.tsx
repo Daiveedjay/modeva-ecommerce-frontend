@@ -28,7 +28,7 @@ export default function CartPage() {
     <>
       {" "}
       <NavBar />
-      <main className="min-h-screen pt-24 pb-40 px-6 md:px-10">
+      <main className="min-h-screen pt-24 pb-40 page_spacing">
         <div className="max-w-7xl mx-auto">
           <header className="mb-16 space-y-4">
             <p className="text-xs uppercase tracking-[1px] font-black text-muted-foreground/60">

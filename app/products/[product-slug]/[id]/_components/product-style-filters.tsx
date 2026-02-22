@@ -28,7 +28,7 @@ export function ProductStyleFilters() {
           <button
             key={style}
             onClick={() => handleStyleClick(style)}
-            className={`flex-1 cursor-pointer uppercase h-12 px-3 text-xs border transition-colors ${
+            className={`flex-1 cursor-pointer uppercase h-10 sm:h-12 sm:px-3 text-[10px] sm:text-xs border transition-colors ${
               selectedStyle === style
                 ? "bg-foreground text-background border-foreground"
                 : "bg-background text-foreground border-border hover:border-foreground"

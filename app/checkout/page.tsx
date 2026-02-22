@@ -56,7 +56,7 @@ export default function CheckoutPage() {
         <div className="min-h-screen bg-white text-[#1a1a1a]">
           <div className="max-w-350 mx-auto grid grid-cols-1 lg:grid-cols-12 gap-0 min-h-screen">
             {/* Left Column: Selection Area */}
-            <div className="lg:col-span-8 p-6 md:p-12 lg:p-20 bg-white border-r border-[#eeeeee]">
+            <div className="lg:col-span-8 px-4 py-6 md:p-14 lg:p-20 bg-white border-r border-[#eeeeee]">
               <div className="max-w-175 mx-auto lg:mx-0">
                 <header className="mb-16">
                   <h1 className="text-5xl font-beatrice-deck font-medium tracking-tight mb-4">

@@ -73,7 +73,7 @@ export default function OrderSuccessPage() {
   const { min, max } = deliveryRange;
 
   return (
-    <div className="min-h-screen bg-white text-[#1a1a1a] flex flex-col items-center justify-center p-6 text-center">
+    <div className="min-h-screen bg-white text-[#1a1a1a] flex flex-col items-center justify-center p-4 sm:p-6 text-center">
       <div className="max-w-150 w-full space-y-12">
         {/* Success Icon & Header */}
         <div className="space-y-6">

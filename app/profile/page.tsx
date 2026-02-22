@@ -60,7 +60,7 @@ export default function ProfilePage() {
     <div className="min-h-screen">
       <NavBar />
 
-      <main className="max-w-7xl mx-auto px-8 py-16">
+      <main className="max-w-7xl mx-auto px-4 sm:px-8 py-16">
         <UserDetails />
 
         <UserTabsController activeTab={activeTab} />

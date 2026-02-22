@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function NewSection() {
   return (
-    <div className="px-6 md:px-14 py-10 md:py-0 overflow-hidden flex-col">
+    <div className="page_spacing py-10 md:py-0 overflow-hidden flex-col">
       <div className="space-y-4">
         <h2 className="section_header">
           <span>NEW</span> <br />
