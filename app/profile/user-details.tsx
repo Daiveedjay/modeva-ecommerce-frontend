@@ -66,7 +66,7 @@ export default function UserDetails() {
         {/* Right side: Edit Button */}
         <Button
           variant="outline"
-          className="border-stone-300 text-foreground hover:bg-foreground hover:text-background uppercase text-xs tracking-widest font-light bg-transparent w-full sm:w-auto sm:shrink-0"
+          className="border-stone-300 text-foreground hover:bg-foreground hover:text-background uppercase text-xs tracking-widest font-light bg-transparent w-full sm:w-auto sm:shrink-0 h-10 sm:h-11"
           onClick={() => setOpen(true)}>
           Edit Profile
         </Button>

@@ -49,18 +49,18 @@ export function UpdateAddressModal() {
     <Dialog
       open={updateAddressModal}
       onOpenChange={(open) => !open && handleClose()}>
-      <DialogContent className="bg-background rounded-none border-none shadow-2xl w-full max-w-[95vw] sm:max-w-2xl md:max-w-3xl max-h-[95vh] overflow-y-auto p-0 gap-0">
-        <div className="p-4 sm:p-6 md:p-8 lg:p-10 space-y-6 md:space-y-8">
-          <DialogHeader className="text-left space-y-1 md:space-y-2">
-            <DialogTitle className="text-2xl sm:text-3xl md:text-4xl font-beatrice-deck font-normal tracking-tight">
+      <DialogContent className="bg-background rounded-none border-none shadow-2xl w-full max-w-[95vw] sm:max-w-2xl md:max-w-3xl max-h-[90vh] overflow-y-auto p-0 gap-0">
+        <div className="p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-5 md:space-y-6">
+          <DialogHeader className="text-left space-y-1">
+            <DialogTitle className="text-lg sm:text-2xl md:text-3xl font-beatrice-deck font-normal tracking-tight">
               Update Address
             </DialogTitle>
-            <p className="text-muted-foreground text-sm sm:text-base md:text-lg font-light leading-relaxed">
+            <p className="text-muted-foreground text-xs sm:text-sm md:text-base font-light leading-relaxed">
               Update your delivery details below.
             </p>
           </DialogHeader>
 
-          <div className="space-y-6 md:space-y-8 lg:space-y-10">
+          <div className="space-y-4 sm:space-y-5 md:space-y-6">
             <AddressTypeSelector />
 
             <RecipientDetailsSection />
@@ -71,19 +71,19 @@ export function UpdateAddressModal() {
           </div>
         </div>
 
-        <DialogFooter className="sticky bottom-0 bg-background/80 backdrop-blur-xl p-4 sm:p-6 md:p-8 border-t border-border/40 flex-col sm:flex-row gap-3 md:gap-4 mt-0">
+        <DialogFooter className="sticky bottom-0 bg-background/80 backdrop-blur-xl p-4 sm:p-6 border-t border-border/40 flex-col sm:flex-row gap-2 sm:gap-3 mt-0">
           <Button
             type="button"
             variant="ghost"
             onClick={handleClose}
-            className="w-full sm:flex-1 h-12 sm:h-13 md:h-14 text-xs sm:text-sm font-semibold tracking-wide hover:bg-muted/50 transition-all order-2 sm:order-1">
+            className="w-full sm:flex-1 h-10 sm:h-11 text-xs sm:text-sm font-semibold tracking-wide hover:bg-muted/50 transition-all order-2 sm:order-1">
             Cancel
           </Button>
           <Button
             type="button"
             onClick={handleSubmit}
             disabled={!isFormValid() || isPending}
-            className="w-full sm:flex-1 md:flex-2 h-12 sm:h-13 md:h-14 bg-foreground text-primary-foreground hover:bg-foreground/90 shadow-xl disabled:bg-primary shadow-primary/20 transition-all text-xs sm:text-sm font-semibold tracking-wide order-1 sm:order-2">
+            className="w-full sm:flex-1 h-10 sm:h-11 bg-foreground text-primary-foreground hover:bg-foreground/90 shadow-xl disabled:bg-primary shadow-primary/20 transition-all text-xs sm:text-sm font-semibold tracking-wide order-1 sm:order-2">
             {isPending && <Spinner className="w-4 h-4" />}
             {isPending ? "Updating..." : "Update Address"}
           </Button>

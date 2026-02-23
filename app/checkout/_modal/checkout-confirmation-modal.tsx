@@ -97,34 +97,34 @@ export function CheckoutConfirmationModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-125 rounded-none border-[#1a1a1a] p-0 overflow-hidden">
+      <DialogContent className="max-w-125 rounded-none border-[#1a1a1a] p-0 overflow-hidden max-h-[90vh] overflow-y-auto">
         {/* Header with Trust Signal */}
-        <div className="bg-[#1a1a1a] text-white px-4 md:p-8 py-8 pb-10">
-          <div className="flex items-center justify-center mb-4">
-            <div className="w-12 h-12 rounded-none bg-white/10 flex items-center justify-center">
-              <ShieldCheck className="w-6 h-6" />
+        <div className="bg-[#1a1a1a] text-white px-4 sm:px-6 py-5 sm:py-8 pb-6 sm:pb-10">
+          <div className="flex items-center justify-center mb-3 sm:mb-4">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-none bg-white/10 flex items-center justify-center">
+              <ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
           </div>
-          <DialogHeader className="space-y-3 text-center">
-            <DialogTitle className="text-xl font-bold uppercase tracking-[0.15em] text-white">
+          <DialogHeader className="space-y-1.5 sm:space-y-3 text-center">
+            <DialogTitle className="text-lg sm:text-xl font-bold uppercase tracking-[0.12em] sm:tracking-[0.15em] text-white">
               Confirm Your Order
             </DialogTitle>
-            <DialogDescription className="text-[10px] uppercase tracking-[0.25em] text-white/70 font-bold">
+            <DialogDescription className="text-[8px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.25em] text-white/70 font-bold">
               Review your selection before completing purchase
             </DialogDescription>
           </DialogHeader>
         </div>
 
         {/* Content */}
-        <div className="px-4 py-8 md:p-8 space-y-8">
+        <div className="px-4 sm:px-6 py-4 sm:py-8 space-y-4 sm:space-y-6">
           {/* Order Summary Preview */}
-          <div className="space-y-4">
-            <h3 className="text-[10px] uppercase tracking-[0.25em] font-bold text-[#999999]">
+          <div className="space-y-2 sm:space-y-3">
+            <h3 className="text-[8px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.25em] font-bold text-[#999999]">
               Order Summary
             </h3>
             <div className="flex justify-between items-baseline">
-              <span className="text-sm">Total Amount</span>
-              <span className="text-2xl font-bold tracking-tight">
+              <span className="text-xs sm:text-sm">Total Amount</span>
+              <span className="text-xl sm:text-2xl font-bold tracking-tight">
                 {formatCurrency(total)}
               </span>
             </div>
@@ -134,11 +134,11 @@ export function CheckoutConfirmationModal({
 
           {/* Shipping Address Preview */}
           {selected_address && (
-            <div className="space-y-3">
-              <h3 className="text-[10px] uppercase tracking-[0.25em] font-bold text-[#999999]">
+            <div className="space-y-2 sm:space-y-3">
+              <h3 className="text-[8px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.25em] font-bold text-[#999999]">
                 Shipping To
               </h3>
-              <p className="text-sm leading-relaxed text-[#666666]">
+              <p className="text-xs sm:text-sm leading-relaxed text-[#666666]">
                 {selected_address.first_name} {selected_address.last_name}
                 <br />
                 {selected_address.street}
@@ -152,13 +152,13 @@ export function CheckoutConfirmationModal({
 
           {/* Payment Method Preview */}
           {selected_payment && (
-            <div className="space-y-3">
-              <h3 className="text-[10px] uppercase tracking-[0.25em] font-bold text-[#999999]">
+            <div className="space-y-2 sm:space-y-3">
+              <h3 className="text-[8px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.25em] font-bold text-[#999999]">
                 Payment Method
               </h3>
-              <div className="flex items-center gap-3">
-                <Lock className="w-4 h-4 text-[#999999]" />
-                <p className="text-sm text-[#666666]">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <Lock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#999999]" />
+                <p className="text-xs sm:text-sm text-[#666666]">
                   {selected_payment.card_brand} {selected_payment.card_number}
                 </p>
               </div>
@@ -168,13 +168,12 @@ export function CheckoutConfirmationModal({
           <Separator className="bg-[#eeeeee]" />
 
           {/* Actions */}
-          <div className="space-y-3 pt-4">
+          <div className="space-y-2 pt-2 sm:pt-4">
             <Button
               onClick={handleCreateOrder}
               disabled={isPending}
-              className="w-full h-14 bg-foreground text-white rounded-none hover:bg-foreground/70 text-[11px] uppercase tracking-[0.25em] font-bold transition-all active:scale-[0.98]">
-              <span className=" flex gap-4">
-                {" "}
+              className="w-full h-10 sm:h-12 bg-foreground text-white rounded-none hover:bg-foreground/70 text-[10px] sm:text-[11px] uppercase tracking-[0.2em] sm:tracking-[0.25em] font-bold transition-all active:scale-[0.98]">
+              <span className="flex gap-2 sm:gap-4">
                 {isPending && <Spinner />}
                 Complete Order
               </span>
@@ -182,7 +181,7 @@ export function CheckoutConfirmationModal({
             <Button
               onClick={() => onOpenChange(false)}
               variant="ghost"
-              className="w-full h-12 rounded-none text-[10px] uppercase tracking-[0.25em] font-bold text-[#666666] hover:text-[#1a1a1a]">
+              className="w-full h-9 sm:h-11 rounded-none text-[9px] sm:text-[10px] uppercase tracking-[0.18em] sm:tracking-[0.25em] font-bold text-[#666666] hover:text-[#1a1a1a]">
               Review Again
             </Button>
           </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import BackLink from "@/app/_resuseables/back-link";
 import UserAddressTab from "@/app/profile/tabs/user-address-tab";
 import UserOrdersTab from "@/app/profile/tabs/user-orders-tab";
@@ -13,6 +14,7 @@ import { LogOut } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useLogout } from "@/app/profile/_hooks/use-logout";
 import NavBar from "@/app/_resuseables/nav-bar";
+import { SignOutModal } from "@/app/profile/modals/profile/sign-out-modal";
 
 type Tab = "overview" | "addresses" | "orders" | "payments";
 
@@ -21,7 +23,8 @@ export default function ProfilePage() {
   const searchParams = useSearchParams();
   const { data: me, isLoading } = useMe();
 
-  // ✅ Derive active tab from URL safely
+  const [isSignOutOpen, setIsSignOutOpen] = useState(false);
+
   const tabParam = searchParams.get("tab");
 
   const activeTab: Tab =
@@ -32,6 +35,11 @@ export default function ProfilePage() {
   const logoutMutation = useLogout({
     onDone: () => router.push("/"),
   });
+
+  const handleConfirmSignOut = () => {
+    logoutMutation.mutate();
+    setIsSignOutOpen(false);
+  };
 
   if (isLoading) {
     return (
@@ -72,15 +80,22 @@ export default function ProfilePage() {
 
         <div className="pt-12 border-t border-stone-200">
           <Button
-            onClick={() => logoutMutation.mutate()}
-            disabled={logoutMutation.isPending}
+            onClick={() => setIsSignOutOpen(true)}
             variant="outline"
-            className="border-stone-300 text-stone-900 uppercase hover:bg-foreground text-xs tracking-widest font-light bg-transparent">
+            disabled={logoutMutation.isPending}
+            className="border-stone-300 text-stone-900 uppercase hover:bg-foreground hover:text-background text-xs tracking-widest font-light bg-transparent h-10 sm:h-11">
             <LogOut className="w-4 h-4 mr-3" />
-            {logoutMutation.isPending ? "Signing out..." : "Sign out"}
+            Sign out
           </Button>
         </div>
       </main>
+
+      {/* Modal */}
+      <SignOutModal
+        isOpen={isSignOutOpen}
+        onClose={() => setIsSignOutOpen(false)}
+        onConfirm={handleConfirmSignOut}
+      />
     </div>
   );
 }

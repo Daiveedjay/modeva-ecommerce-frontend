@@ -74,7 +74,7 @@ function SavedPaymentMethods({
 
         <Button
           onClick={onAdd}
-          className="uppercase bg-foreground hover:bg-foreground/80 text-xs tracking-widest font-light inline-flex items-center gap-2 w-full sm:w-auto">
+          className="uppercase bg-foreground hover:bg-foreground/80 text-xs tracking-widest font-light inline-flex items-center gap-2 w-full sm:w-auto h-10 sm:h-11">
           <Plus className="w-3.5 h-3.5 md:w-4 md:h-4" />
           Add Card
         </Button>

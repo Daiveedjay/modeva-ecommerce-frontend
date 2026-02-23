@@ -77,7 +77,7 @@ function SavedAddresses({
         <h3 className="tab_header">Saved Addresses</h3>
 
         <Button
-          className="bg-foreground button w-full sm:w-auto"
+          className="bg-foreground button w-full sm:w-auto h-10 sm:h-11"
           onClick={onOpenCreate}>
           Add Address
         </Button>

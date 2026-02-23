@@ -40,29 +40,23 @@ export function PaginationControls<T>({
 
   // Calculate visible page numbers for mobile
   const getVisiblePages = () => {
-    const maxVisible = 3; // Show max 3 page numbers on mobile
-    const pages: number[] = [];
+    const maxVisible = 3;
 
     if (total_pages <= maxVisible) {
-      // If total pages is less than max, show all
       return Array.from({ length: total_pages }, (_, i) => i + 1);
     }
 
-    // Always include current page
-    pages.push(current_page);
+    // Sliding window centered around current page
+    let start = Math.max(1, current_page - 1);
+    let end = start + maxVisible - 1;
 
-    // Add pages before current
-    if (current_page > 1) pages.unshift(current_page - 1);
-    if (current_page > 2 && pages.length < maxVisible)
-      pages.unshift(current_page - 2);
+    // If we overflow the total pages, shift back
+    if (end > total_pages) {
+      end = total_pages;
+      start = end - maxVisible + 1;
+    }
 
-    // Add pages after current
-    if (current_page < total_pages && pages.length < maxVisible)
-      pages.push(current_page + 1);
-    if (current_page < total_pages - 1 && pages.length < maxVisible)
-      pages.push(current_page + 2);
-
-    return pages.sort((a, b) => a - b);
+    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
   };
 
   const visiblePages = getVisiblePages();

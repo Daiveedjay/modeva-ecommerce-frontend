@@ -25,7 +25,7 @@ export function SignOutModal({
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent className="bg-white border-stone-200">
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-lg font-light uppercase tracking-wide text-stone-900">
+          <AlertDialogTitle className="text-lg sm:text-2xl md:text-3xl font-beatrice-deck font-normal tracking-tight">
             Sign Out
           </AlertDialogTitle>
           <AlertDialogDescription className="text-stone-600">
@@ -33,12 +33,12 @@ export function SignOutModal({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <div className="flex gap-4 pt-4">
-          <AlertDialogCancel className="flex-1 border-stone-300 text-stone-900 hover:bg-stone-50 uppercase text-xs tracking-widest font-light">
+          <AlertDialogCancel className="flex-1 border-stone-300 text-stone-900 hover:bg-stone-50 uppercase text-xs tracking-widest font-light h-10 sm:h-11">
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={onConfirm}
-            className="flex-1 bg-stone-900 text-white hover:bg-stone-800 uppercase text-xs tracking-widest font-light">
+            className="flex-1 bg-stone-900 text-white hover:bg-stone-800 uppercase text-xs tracking-widest font-light h-10 sm:h-11">
             Sign Out
           </AlertDialogAction>
         </div>

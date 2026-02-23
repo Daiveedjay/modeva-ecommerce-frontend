@@ -153,7 +153,7 @@ function OrderCard({
 
         <button
           onClick={() => onViewDetails(order.id)}
-          className="button text-neutral-900 hover:bg-foreground hover:text-background font-beatrice px-4 md:px-6 py-2.5 md:py-3 border border-neutral-200 rounded-none hover:border-neutral-400 transition-all duration-300 w-full sm:w-auto text-sm md:text-base">
+          className="button text-neutral-900 hover:bg-foreground hover:text-background font-beatrice px-4 md:px-6 py-2.5 md:py-3 border border-neutral-200 rounded-none hover:border-neutral-400 transition-all duration-300 w-full sm:w-auto text-sm md:text-base h-10 sm:h-11">
           View Details
         </button>
       </div>

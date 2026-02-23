@@ -52,31 +52,33 @@ export function EditProfileModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-2xl bg-background rounded-none border-none shadow-2xl px-6 sm:px-10 py-8 overflow-y-auto">
-        <DialogHeader className="text-left space-y-2">
-          <DialogTitle className="text-3xl sm:text-4xl font-beatrice-deck font-normal tracking-tight">
+      <DialogContent className="max-w-2xl bg-background rounded-none border-none shadow-2xl px-4 sm:px-6 py-6 sm:py-8">
+        <DialogHeader className="text-left space-y-1 sm:space-y-2">
+          <DialogTitle className="text-xl sm:text-3xl md:text-4xl font-beatrice-deck font-normal tracking-tight">
             Edit profile
           </DialogTitle>
-          <p className="text-muted-foreground text-sm sm:text-lg font-light leading-relaxed">
+          <p className="text-muted-foreground text-xs sm:text-sm md:text-base font-light leading-relaxed">
             Update your details below. Changes will apply to your account.
           </p>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-6 py-6">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-4 sm:space-y-5 py-4 sm:py-6">
           {/* Full Name */}
-          <div className="space-y-3">
+          <div className="space-y-1.5 sm:space-y-2">
             <Label className="text-xs uppercase tracking-widest text-stone-500">
               Full name
             </Label>
             <Input
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="h-12 px-4 border border-stone-200 bg-white focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-stone-400 rounded-none"
+              className="h-10 sm:h-11 px-3 sm:px-4 border border-stone-200 bg-white focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-stone-400 rounded-none text-sm sm:text-base"
             />
           </div>
 
           {/* Email */}
-          <div className="space-y-3">
+          <div className="space-y-1.5 sm:space-y-2">
             <Label className="text-xs uppercase tracking-widest text-stone-500">
               Email
             </Label>
@@ -85,12 +87,12 @@ export function EditProfileModal({
               value={profile.email ?? ""}
               disabled
               readOnly
-              className="h-12 px-4 border border-stone-200 bg-white text-muted-foreground cursor-not-allowed rounded-none"
+              className="h-10 sm:h-11 px-3 sm:px-4 border border-stone-200 bg-white text-muted-foreground cursor-not-allowed rounded-none text-sm sm:text-base"
             />
           </div>
 
           {/* Phone */}
-          <div className="space-y-3">
+          <div className="space-y-1.5 sm:space-y-2">
             <Label className="text-xs uppercase tracking-widest text-stone-500">
               Phone
             </Label>
@@ -99,23 +101,23 @@ export function EditProfileModal({
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="Optional"
-              className="h-12 px-4 border border-stone-200 bg-white focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-stone-400 rounded-none"
+              className="h-10 sm:h-11 px-3 sm:px-4 border border-stone-200 bg-white focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-stone-400 rounded-none text-sm sm:text-base"
             />
           </div>
 
-          <DialogFooter className="flex flex-col sm:flex-row gap-4 pt-6">
+          <DialogFooter className="flex flex-col sm:flex-row gap-3 pt-4 sm:pt-6">
             <Button
               type="button"
               onClick={onClose}
               variant="ghost"
-              className="w-full sm:flex-1 h-12 sm:h-13 md:h-14 text-xs sm:text-sm font-semibold tracking-wide hover:bg-muted/50 transition-all order-2 sm:order-1 rounded-none">
+              className="w-full sm:flex-1 h-10 sm:h-11 text-xs sm:text-sm font-semibold tracking-wide hover:bg-muted/50 transition-all order-2 sm:order-1 rounded-none">
               Go back
             </Button>
 
             <Button
               type="submit"
               disabled={isPending}
-              className="w-full sm:flex-1 md:flex-2 h-12 sm:h-13 md:h-14 bg-foreground text-primary-foreground hover:bg-foreground/90 shadow-xl disabled:bg-primary shadow-primary/20 transition-all text-xs sm:text-sm font-semibold tracking-wide order-1 sm:order-2 rounded-none">
+              className="w-full sm:flex-1 h-10 sm:h-11 bg-foreground text-primary-foreground hover:bg-foreground/90 shadow-xl disabled:bg-primary shadow-primary/20 transition-all text-xs sm:text-sm font-semibold tracking-wide order-1 sm:order-2 rounded-none">
               {isPending && <Spinner />}
               {isPending ? "Saving..." : "Save changes"}
             </Button>
