@@ -12,10 +12,11 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
+import { toastError, toastSuccess } from "@/lib/utils";
 
 interface AuthRequiredModalProps {
   isOpen: boolean;
-  onClose?: () => void; // Optional - if not provided, modal is uncloseable
+  onClose?: () => void;
 }
 
 export function AuthRequiredModal({ isOpen, onClose }: AuthRequiredModalProps) {
@@ -42,7 +43,7 @@ export function AuthRequiredModal({ isOpen, onClose }: AuthRequiredModalProps) {
       );
 
       if (!popup) {
-        alert("Please allow popups for this site");
+        toastError("Popup blocked", "Please allow popups for this site.");
         setIsLoading(false);
         return;
       }
@@ -58,18 +59,35 @@ export function AuthRequiredModal({ isOpen, onClose }: AuthRequiredModalProps) {
         if (event.data?.type === "AUTH_SUCCESS") {
           window.removeEventListener("message", handleMessage);
 
-          // Pull fresh auth state from /user/me
-          await queryClient.invalidateQueries({ queryKey: ["me"] });
+          try {
+            await queryClient.invalidateQueries({ queryKey: ["me"] });
+            await queryClient.refetchQueries({ queryKey: ["me"] });
 
-          router.refresh();
-          setIsLoading(false);
-          onClose?.();
+            const meData = queryClient.getQueryData(["me"]);
+
+            if (!meData) {
+              toastError("Account inactive", "Your account is not active.");
+              setIsLoading(false);
+              return;
+            }
+
+            toastSuccess("Welcome! You're now signed in.");
+            router.refresh();
+            setIsLoading(false);
+            onClose?.();
+          } catch {
+            toastError("Authentication failed", "Please try again.");
+            setIsLoading(false);
+          }
           return;
         }
-
         if (event.data?.type === "AUTH_ERROR") {
           window.removeEventListener("message", handleMessage);
-          alert("Authentication failed. Please try again.");
+          const msg =
+            event.data.error === "banned"
+              ? "Your account has been suspended."
+              : "Sign in failed. Please try again.";
+          toastError("Authentication failed", msg);
           setIsLoading(false);
         }
       };
@@ -85,18 +103,15 @@ export function AuthRequiredModal({ isOpen, onClose }: AuthRequiredModalProps) {
       );
     } catch (error) {
       console.error("Login error:", error);
+      toastError("Something went wrong", "Please try again.");
       setIsLoading(false);
     }
   };
 
   return (
-    <Dialog
-      open={isOpen}
-      onOpenChange={onClose ? onClose : undefined} // Only allow closing if onClose exists
-    >
+    <Dialog open={isOpen} onOpenChange={onClose ? onClose : undefined}>
       <DialogContent
         className="sm:max-w-md tracking-[0] font-beatrice-deck"
-        // Hide close button if modal is uncloseable
         showCloseButton={!onClose}>
         <DialogHeader>
           <DialogTitle className="text-2xl tracking-[0.5px] font-semibold">
