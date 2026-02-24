@@ -1,122 +1,77 @@
-"use client";
+import ProductClient from "@/app/products/[product-slug]/[id]/_components/product-client";
+import type { Metadata } from "next";
 
-import { useGetProductById } from "@/app/_queries/products/get-product-by-id";
+type Props = {
+  params: Promise<{ id: string; "product-slug": string }>;
+};
 
-import ActionButtons from "@/app/products/[product-slug]/[id]/_components/action-buttons";
-import AdditionalInfo from "@/app/products/[product-slug]/[id]/_components/additional-info";
-import FavouritesButton from "@/app/products/[product-slug]/[id]/_components/favourites-button";
-import ImageGallery from "@/app/products/[product-slug]/[id]/_components/image-gallery";
-import QuantityControllers from "@/app/products/[product-slug]/[id]/_components/quantity-controllers";
-import { SingleProductError } from "@/app/products/[product-slug]/[id]/_components/single-product-error";
-import { SingleProductSkeleton } from "@/app/products/[product-slug]/[id]/_components/single-product-skeleton";
-import { VariantRenderer } from "@/app/products/[product-slug]/[id]/_components/variant-renderer";
-import { MultiSelectModal } from "@/app/products/[product-slug]/[id]/_modals/multi-select-modal";
-import { isInStock } from "@/lib/types/product";
-import { formatCurrency, slugify } from "@/lib/utils";
-import { useParams } from "next/navigation";
-import { useMemo } from "react";
-import { useSingleProductStore } from "./_hooks/use-single-product-store";
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  try {
+    const params = await props.params;
+    const apiUrl =
+      process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export default function SingleProductPage() {
-  const { id } = useParams<{ id: string }>();
-  const { data, error, isLoading, isPending, refetch } = useGetProductById(
-    id,
-    true,
-  );
+    if (!apiUrl) {
+      console.error("API_BASE_URL is not defined");
+      return {
+        title: "Product",
+        description: "View product details",
+      };
+    }
 
-  const product = data?.data;
+    const res = await fetch(`${apiUrl}/products/${params.id}`, {
+      next: { revalidate: 3600 },
+    });
 
-  const { variant_selections, is_multi_select_open, closeMultiSelect } =
-    useSingleProductStore();
+    if (!res.ok) {
+      return {
+        title: "Product not found",
+        description: "This product could not be found.",
+      };
+    }
 
-  const stockStatus = useMemo(() => {
-    if (!product) return { inStock: false, quantity: 0 };
-    return isInStock(variant_selections, product.inventory, product.variants);
-  }, [variant_selections, product]);
+    const json = await res.json();
+    const product = json?.data;
 
-  const allVariantsSelected = useMemo(() => {
-    if (!product) return false;
-    return product.variants.every((v) => variant_selections[v.type]);
-  }, [variant_selections, product]);
+    if (!product) {
+      return {
+        title: "Product not found",
+        description: "This product could not be found.",
+      };
+    }
 
-  const sortedMedia = useMemo(() => {
-    if (!product) return [];
-    return [...product.media.other].sort((a, b) => a.order - b.order);
-  }, [product]);
+    const imageUrl = product.media.primary.url;
 
-  if (isLoading || isPending) return <SingleProductSkeleton />;
-  if (error || !product) return <SingleProductError onRetry={refetch} />;
+    return {
+      title: product.name,
+      description: product.description,
+      openGraph: {
+        type: "website",
+        title: product.name,
+        description: product.description,
+        images: [
+          {
+            url: imageUrl,
+            width: 1200,
+            height: 630,
+            alt: product.name,
+          },
+        ],
+      },
+      twitter: {
+        card: "summary_large_image",
+        images: [imageUrl],
+      },
+    };
+  } catch (error) {
+    console.error("Error generating metadata:", error);
+    return {
+      title: "Product",
+      description: "View product details",
+    };
+  }
+}
 
-  return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="flex flex-col lg:flex-row gap-8 lg:gap-20">
-        {/* Image Gallery */}
-        <ImageGallery
-          product_name={product.name}
-          product_primary_image={product.media.primary.url}
-          sortedMedia={sortedMedia}
-        />
-
-        {/* Product Details */}
-        <div className="space-y-6 relative border border-border p-6 sm:p-8 lg:p-10 flex-1 lg:flex-1">
-          {/* Header */}
-          <div>
-            <h1 className="text-2xl max-w-3/4 wrap-break-word md:w-full sm:text-3xl lg:text-4xl font-medium mb-2">
-              {product.name}
-            </h1>
-            <p className="text-xl sm:text-2xl font-medium">
-              {formatCurrency(product.price)}
-            </p>
-            <p className="text-xs sm:text-sm text-muted-foreground">
-              MRP excl. of all taxes
-            </p>
-          </div>
-
-          {/* Description */}
-          <p className="text-sm sm:text-base text-foreground leading-relaxed">
-            {product.description}
-          </p>
-
-          {/* Variant Selection */}
-          <VariantRenderer />
-
-          {/* Quantity */}
-          <QuantityControllers
-            allVariantsSelected={allVariantsSelected}
-            stockStatus={stockStatus}
-          />
-
-          {/* Add to Cart */}
-          <ActionButtons
-            product_name={product.name}
-            product_id={product.id}
-            product_image={product.media.primary.url}
-            inventory={product.inventory}
-            price={product.price}
-            allVariantsSelected={allVariantsSelected}
-            stockStatus={stockStatus}
-          />
-
-          <MultiSelectModal
-            isOpen={is_multi_select_open}
-            onClose={closeMultiSelect}
-          />
-
-          {/* Additional Info */}
-          <AdditionalInfo
-            allVariantsSelected={allVariantsSelected}
-            stockStatus={stockStatus}
-          />
-
-          {/* Favourites */}
-          <FavouritesButton
-            product_id={product.id}
-            product_name={product.name}
-            price={product.price}
-            image_url={product.media.primary.url}
-          />
-        </div>
-      </div>
-    </div>
-  );
+export default function Page() {
+  return <ProductClient />;
 }

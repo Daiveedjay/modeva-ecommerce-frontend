@@ -216,7 +216,7 @@ export function OrderDetailsDrawer({
             <Button
               variant="outline"
               onClick={() => onOpenChange(false)}
-              className="w-full border-stone-900 text-stone-900 py-4 md:py-5 lg:py-6 hover:bg-stone-900 hover:text-white button text-xs md:text-sm">
+              className="w-full h-10 border-stone-900 text-stone-900 py-4 md:py-5 lg:py-6 hover:bg-stone-900 hover:text-white button text-xs md:text-sm">
               Back to History
             </Button>
           </div>

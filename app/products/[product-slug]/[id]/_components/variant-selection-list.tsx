@@ -39,7 +39,7 @@ export default function VariantSelectionList({
             return (
               <div
                 key={combo.variant_name}
-                className={`group px-4 sm:px-6 md:px-8 lg:px-10 py-4 sm:py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0 transition-all ${
+                className={`group px-4 sm:px-6 md:px-8 lg:px-10 py-4 sm:py-5 flex  sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0 transition-all ${
                   isOutOfStock ? "opacity-30 grayscale pointer-events-none" : ""
                 } ${selected_qty > 0 ? "bg-accent/5" : ""}`}>
                 <div className="flex items-start sm:items-center gap-3 sm:gap-4 md:gap-6 min-w-0 flex-1">

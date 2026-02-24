@@ -70,7 +70,7 @@ export default function MultiSelectFooter({
         </div>
 
         {/* Right: actions */}
-        <div className="ml-auto flex items-center gap-3">
+        <div className="sm:ml-auto flex items-center gap-3">
           <Button
             disabled={total_items === 0}
             onClick={handleConfirm}
@@ -86,7 +86,8 @@ export default function MultiSelectFooter({
             <ArrowRight className="ml-2 h-3 w-3 sm:h-3.5 sm:w-3.5 transition-transform group-hover:translate-x-1" />
           </Button>
 
-          <button
+          <Button
+            variant="ghost"
             onClick={clearSelections}
             disabled={total_items === 0}
             className="
@@ -98,7 +99,7 @@ export default function MultiSelectFooter({
               px-2 py-2
             ">
             Clear All
-          </button>
+          </Button>
         </div>
       </div>
     </div>

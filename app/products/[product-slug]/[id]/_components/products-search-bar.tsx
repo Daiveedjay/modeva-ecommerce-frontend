@@ -26,7 +26,7 @@ export function ProductsSearchBar({
           if (e.key === "Enter") onSearch();
         }}
         placeholder="Search products..."
-        className="h-12"
+        className="h-12! border border-border"
       />
       <Button
         onClick={onSearch}

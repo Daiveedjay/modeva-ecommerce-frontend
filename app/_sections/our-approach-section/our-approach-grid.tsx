@@ -24,14 +24,14 @@ export default function OurApproachGrid() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center uppercase section_header font-normal!">
+          className=" text-left sm:text-center uppercase section_header font-normal!">
           Our Approach to Fashion Design
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="mt-6 w-full  mx-auto text-pretty text-center text-muted-foreground leading-relaxed">
+          className="mt-6 w-full  mx-auto text-pretty text-sm sm:text-base text-left sm:text-center text-muted-foreground leading-relaxed">
           At Modeva we blend creativity with craftsmanship to create fashion
           that transcends trends and stands the test of time. Each design is
           meticulously crafted ensuring the highest quality exquisite finish.
