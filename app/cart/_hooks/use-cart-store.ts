@@ -118,13 +118,3 @@ export function createVariantKey(selections: Record<string, string>) {
     .map(([key, value]) => `${key}:${value}`)
     .join("|");
 }
-
-export function sanitizeVariantSelection(
-  selections: VariantSelection,
-): Record<string, string> {
-  return Object.fromEntries(
-    Object.entries(selections)
-      .filter(([, value]) => value !== null && value !== undefined)
-      .map(([key, value]) => [key.trim().toLowerCase(), String(value).trim()]),
-  ) as Record<string, string>;
-}
