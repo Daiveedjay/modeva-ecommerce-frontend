@@ -8,19 +8,22 @@ import { LocationComboBox } from "@/components/ui/location-combobox";
 
 export function AddressInfoSection() {
   const { street, country, state, city, zip } = useUserAddressStore(
-    (store) => store.formData
+    (store) => store.formData,
   );
 
-  // Fetch location data
   const { data: countries = [], isLoading: loadingCountries } = useCountries();
   const { data: states = [], isLoading: loadingStates } = useStates(country);
   const { data: cities = [], isLoading: loadingCities } = useCities(
     country,
-    state
+    state,
   );
 
   const { setCity, setCountry, setState, setStreet, setZip } =
     useUserAddressStore((store) => store);
+
+  const noStates = !loadingStates && !!country && states.length === 0;
+  const noCities = !loadingCities && !!state && cities.length === 0;
+
   return (
     <section className="space-y-6">
       <div className="flex items-center gap-2">
@@ -29,6 +32,7 @@ export function AddressInfoSection() {
           Address Information
         </Label>
       </div>
+
       <div className="space-y-2">
         <Label htmlFor="street" className="text-sm font-medium ml-1">
           Street Address
@@ -47,40 +51,77 @@ export function AddressInfoSection() {
           <Label className="text-sm font-medium ml-1">Country</Label>
           <LocationComboBox
             value={country}
-            onValueChange={setCountry}
+            onValueChange={(val) => {
+              setCountry(val);
+              setState("");
+              setCity("");
+            }}
             items={countries}
             placeholder="Select country"
             isLoading={loadingCountries}
             className="h-12 bg-muted/30"
           />
         </div>
+
         <div className="space-y-2">
           <Label className="text-sm font-medium ml-1">State / Province</Label>
-          <LocationComboBox
-            value={state}
-            onValueChange={setState}
-            items={states}
-            placeholder="Select state"
-            disabled={!country}
-            isLoading={loadingStates}
-            className="h-12 bg-muted/30"
-          />
+          {noStates ? (
+            <>
+              <Input
+                value={state}
+                onChange={(e) => setState(e.target.value)}
+                placeholder="Enter state or province"
+                className="h-12 px-4 bg-muted/30 focus-visible:ring-2 focus-visible:ring-primary/20 transition-all"
+              />
+              <p className="text-xs text-destructive ml-1">
+                Couldn't load states for this country — please type it in.
+              </p>
+            </>
+          ) : (
+            <LocationComboBox
+              value={state}
+              onValueChange={(val) => {
+                setState(val);
+                setCity("");
+              }}
+              items={states}
+              placeholder="Select state"
+              disabled={!country}
+              isLoading={loadingStates}
+              className="h-12 bg-muted/30"
+            />
+          )}
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
           <Label className="text-sm font-medium ml-1">City</Label>
-          <LocationComboBox
-            value={city}
-            onValueChange={setCity}
-            items={cities}
-            placeholder="Select city"
-            disabled={!state}
-            isLoading={loadingCities}
-            className="h-12 bg-muted/30"
-          />
+          {noCities ? (
+            <>
+              <Input
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                placeholder="Enter city"
+                className="h-12 px-4 bg-muted/30 focus-visible:ring-2 focus-visible:ring-primary/20 transition-all"
+              />
+              <p className="text-xs text-destructive ml-1">
+                Couldn't load cities for this state — please type it in.
+              </p>
+            </>
+          ) : (
+            <LocationComboBox
+              value={city}
+              onValueChange={setCity}
+              items={cities}
+              placeholder="Select city"
+              disabled={!state}
+              isLoading={loadingCities}
+              className="h-12 bg-muted/30"
+            />
+          )}
         </div>
+
         <div className="space-y-2">
           <Label htmlFor="zip" className="text-sm font-medium ml-1">
             Zip / Postal Code

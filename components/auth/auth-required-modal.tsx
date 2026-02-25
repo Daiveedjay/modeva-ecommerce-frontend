@@ -108,8 +108,13 @@ export function AuthRequiredModal({ isOpen, onClose }: AuthRequiredModalProps) {
     }
   };
 
+  const handleClose = () => {
+    router.push("/");
+    onClose?.();
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={onClose ? onClose : undefined}>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
       <DialogContent
         className="sm:max-w-md tracking-[0] font-beatrice-deck"
         showCloseButton={!onClose}>

@@ -17,5 +17,7 @@ export const useCountries = () => {
     queryFn: fetchCountries,
     select: (data) => data.sort((a, b) => a.value.localeCompare(b.value)), // Sort countries alphabetically by `value`
     staleTime: Infinity,
+
+    retry: 1,
   });
 };

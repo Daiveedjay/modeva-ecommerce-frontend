@@ -28,7 +28,7 @@ export const fetchStates = async (country: string): Promise<ComboItem[]> => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ country }),
-    }
+    },
   );
   if (!response.ok) throw new Error("Error fetching states");
   const data = await response.json();
@@ -44,13 +44,14 @@ export const useStates = (country: string) => {
     select: (data) => data.sort((a, b) => a.value.localeCompare(b.value)),
     enabled: !!country, // Only fetch when country is selected
     staleTime: Infinity,
+    retry: 1,
   });
 };
 
 // Fetch cities for a specific country and state
 export const fetchCities = async (
   country: string,
-  state: string
+  state: string,
 ): Promise<ComboItem[]> => {
   const response = await fetch(
     `https://countriesnow.space/api/v0.1/countries/state/cities`,
@@ -58,7 +59,7 @@ export const fetchCities = async (
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ country, state }),
-    }
+    },
   );
   if (!response.ok) throw new Error("Error fetching cities");
   const data = await response.json();

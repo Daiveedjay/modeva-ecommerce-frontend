@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 // Fetch cities for a specific country and state
 export const fetchCities = async (
   country: string,
-  state: string
+  state: string,
 ): Promise<ComboItem[]> => {
   const response = await fetch(
     `https://countriesnow.space/api/v0.1/countries/state/cities`,
@@ -12,7 +12,7 @@ export const fetchCities = async (
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ country, state }),
-    }
+    },
   );
   if (!response.ok) throw new Error("Error fetching cities");
   const data = await response.json();
@@ -28,5 +28,6 @@ export const useCities = (country: string, state: string) => {
     select: (data) => data.sort((a, b) => a.value.localeCompare(b.value)),
     enabled: !!country && !!state, // Only fetch when both country and state are selected
     staleTime: Infinity,
+    retry: 1,
   });
 };
